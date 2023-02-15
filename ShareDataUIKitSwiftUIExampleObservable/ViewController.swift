@@ -6,14 +6,25 @@
 //
 
 import UIKit
+import SwiftUI
 
-class ViewController: UIViewController {
 
+class ViewController: UIHostingController<SwiftUITestView> {
+    
+    private var contentModel = ContentModel()
+    private var timer: Timer?
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder, rootView: SwiftUITestView(contentModel: contentModel))
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        // generate new content every 3 sec
+        timer = .scheduledTimer(withTimeInterval: 3, repeats: true, block: { [weak contentModel] _ in
+            contentModel?.generateContent()
+        })
     }
-
-
+    
 }
 
